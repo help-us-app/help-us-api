@@ -1,4 +1,4 @@
-from models.responses.obtain_token_request import ObtainTokenRequest
+from models.requests.obtain_token_request import ObtainTokenRequest
 import unittest
 
 
