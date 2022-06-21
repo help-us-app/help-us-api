@@ -6,6 +6,7 @@ from models.commands.checkout_with_square_command import CheckoutWithSquareComma
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
+from models.responses.obtain_token_response import ObtainTokenResponse
 
 
 class PaymentService:
@@ -30,7 +31,7 @@ class PaymentService:
                                         headers=headers)
         response.raise_for_status()
         response_json = json.loads(response.text)
-        return response_json
+        return ObtainTokenResponse(response_json)
 
     def checkout_with_square(self, command: CheckoutWithSquareCommand) -> CheckoutResponse:
         if command.access_token == '':
