@@ -5,6 +5,7 @@ from models.commands.authorize_with_square_command import AuthorizeWithSquareCom
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
+from models.responses.checkout_response import CheckoutResponse
 
 
 class PaymentService:
@@ -31,7 +32,7 @@ class PaymentService:
         response_json = json.loads(response.text)
         return response_json
 
-    def checkout_with_square(self, command: CheckoutWithSquareCommand):
+    def checkout_with_square(self, command: CheckoutWithSquareCommand) -> CheckoutResponse:
         if command.access_token == '':
             authorization_result = AuthorizeWithSquareCommand(self, {
                 'grant_type': 'refresh_token',
@@ -58,7 +59,6 @@ class PaymentService:
         response = self.request.request(self.constants.post, self.variables.square_checkout_url,
                                         data=request_json,
                                         headers=headers)
-        print(response.text)
         response.raise_for_status()
         response_json = json.loads(response.text)
-        return response_json
+        return CheckoutResponse(response_json)
