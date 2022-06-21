@@ -3,14 +3,14 @@ import unittest
 
 
 class ObtainTokenRequestTests(unittest.TestCase):
-
     response = ObtainTokenRequest({
         'short_lived': True,
         'grant_type': 'authorization_code',
         'client_id': 'client_id',
         'client_secret': 'client_secret',
         'scopes': ['scope1', 'scope2'],
-        'code': 'code'
+        'code': 'code',
+        'refresh_token': 'refresh_token'
     })
 
     def test_short_lived(self) -> None:
@@ -29,13 +29,17 @@ class ObtainTokenRequestTests(unittest.TestCase):
         print('test_client_secret')
         self.assertEqual(self.response.client_secret, 'client_secret')
 
-    def test_scopes(self)  -> None:
+    def test_scopes(self) -> None:
         print('test_scopes')
         self.assertEqual(self.response.scopes, ['scope1', 'scope2'])
 
     def test_code(self) -> None:
         print('test_code')
         self.assertEqual(self.response.code, 'code')
+
+    def test_refresh_token(self) -> None:
+        print('test_refresh_token')
+        self.assertEqual(self.response.refresh_token, 'refresh_token')
 
     def test_to_dict(self) -> None:
         print('test_to_dict')
@@ -47,4 +51,3 @@ class ObtainTokenRequestTests(unittest.TestCase):
             'scopes': ['scope1', 'scope2'],
             'code': 'code'
         })
-

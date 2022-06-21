@@ -7,6 +7,7 @@ class ObtainTokenRequest:
         self.client_secret = response['client_secret']
         self.scopes = response['scopes']
         self.code = response['code']
+        self.refresh_token = response['refresh_token']
 
     def to_dict(self) -> dict:
         return {
@@ -15,7 +16,8 @@ class ObtainTokenRequest:
             'client_id': self.client_id,
             'client_secret': self.client_secret,
             'scopes': self.scopes,
-            'code': self.code
+            'code': self.code,
+            'refresh_token': self.refresh_token
         }
 
 
