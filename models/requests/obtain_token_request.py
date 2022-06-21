@@ -17,7 +17,7 @@ class ObtainTokenRequest:
             'client_secret': self.client_secret,
             'scopes': self.scopes,
             'code': self.code,
-            'refresh_token': self.refresh_token
+            'refresh_token': self.refresh_token,
         }
 
 

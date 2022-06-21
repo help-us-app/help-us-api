@@ -49,5 +49,6 @@ class ObtainTokenRequestTests(unittest.TestCase):
             'client_id': 'client_id',
             'client_secret': 'client_secret',
             'scopes': ['scope1', 'scope2'],
-            'code': 'code'
+            'code': 'code',
+            'refresh_token': 'refresh_token'
         })
