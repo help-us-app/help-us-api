@@ -12,7 +12,7 @@ from models.responses.checkout_response import CheckoutResponse
 from models.responses.obtain_token_response import ObtainTokenResponse
 
 
-class PaymentService:
+class SquareService:
     def __init__(self, request):
         self.request = request
         self.variables = Variables()
@@ -120,3 +120,7 @@ class PaymentService:
 
         response.raise_for_status()
         return True
+
+    def get_square_auth_link(self) -> str:
+        scopes = '+'.join(self.constants.token_scopes)
+        return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes

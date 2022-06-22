@@ -1,6 +1,6 @@
 class UpdateWithSquareCommand:
-    def __init__(self, payment_service, request):
-        self.payment_service = payment_service
+    def __init__(self, square_service, request):
+        self.square_service = square_service
         self.id = request['id']
         if 'line_items' in request:
             self.line_items = request['line_items']
@@ -11,4 +11,4 @@ class UpdateWithSquareCommand:
         self.access_token = request['access_token'] if 'access_token' in request else ''
 
     def execute(self):
-        return self.payment_service.update(self)
+        return self.square_service.update(self)

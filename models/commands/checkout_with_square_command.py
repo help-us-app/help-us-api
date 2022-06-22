@@ -1,6 +1,6 @@
 class CheckoutWithSquareCommand:
-    def __init__(self, payment_service, request):
-        self.payment_service = payment_service
+    def __init__(self, square_service, request):
+        self.square_service = square_service
         self.refresh_token = request['refresh_token'] if 'refresh_token' in request else ''
         self.location_id = request['location_id']
         self.customer_id = request['customer_id']
@@ -11,4 +11,4 @@ class CheckoutWithSquareCommand:
         self.access_token = request['access_token'] if 'access_token' in request else ''
 
     def execute(self):
-        return self.payment_service.create(self)
+        return self.square_service.create(self)
