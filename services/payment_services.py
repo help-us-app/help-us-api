@@ -4,6 +4,7 @@ from constants.variables import Variables
 from models.commands.authorize_with_square_command import AuthorizeWithSquareCommand
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
+from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
@@ -28,7 +29,9 @@ class PaymentService:
         })
         request_json = json.dumps(obtain_token_request.to_dict())
         headers = {self.constants.content_type: self.constants.application_json}
-        response = self.request.request(self.constants.post, self.variables.square_url + self.constants.obtain_token_endpoint, data=request_json,
+        response = self.request.request(self.constants.post,
+                                        self.variables.square_url + self.constants.obtain_token_endpoint,
+                                        data=request_json,
                                         headers=headers)
         response.raise_for_status()
         response_json = json.loads(response.text)
@@ -58,8 +61,19 @@ class PaymentService:
         request_json = json.dumps(checkout_request.to_dict())
         headers = {self.constants.content_type: self.constants.application_json,
                    "Authorization": "Bearer " + access_token}
-        response = self.request.request(self.constants.post, self.variables.square_url + self.constants.payment_link_endpoint,
+        response = self.request.request(self.constants.post,
+                                        self.variables.square_url + self.constants.payment_link_endpoint,
                                         data=request_json,
+                                        headers=headers)
+        response.raise_for_status()
+        response_json = json.loads(response.text)
+        return CheckoutResponse(response_json)
+
+    def get_payment_link(self, command: RetrieveWithSquareCommand) -> CheckoutResponse:
+        headers = {self.constants.content_type: self.constants.application_json,
+                   "Authorization": "Bearer " + command.access_token}
+        response = self.request.request(self.constants.get,
+                                        self.variables.square_url + self.constants.payment_link_endpoint + command.id,
                                         headers=headers)
         response.raise_for_status()
         response_json = json.loads(response.text)
@@ -69,7 +83,9 @@ class PaymentService:
         headers = {self.constants.content_type: self.constants.application_json,
                    'Authorization': 'Bearer ' + command.access_token}
 
-        response = self.request.request(self.constants.delete, self.variables.square_url + self.constants.payment_link_endpoint + command.id, headers=headers)
+        response = self.request.request(self.constants.delete,
+                                        self.variables.square_url + self.constants.payment_link_endpoint + command.id,
+                                        headers=headers)
 
         response.raise_for_status()
 

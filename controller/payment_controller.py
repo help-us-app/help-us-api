@@ -1,6 +1,7 @@
 from models.commands.authorize_with_square_command import AuthorizeWithSquareCommand
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
+from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 
 
 class PaymentController:
@@ -15,5 +16,8 @@ class PaymentController:
 
     def delete_link_square(self, request):
         return DeleteLinkSquareCommand(self.payment_service, request).execute()
+
+    def retrieve_with_square(self, request):
+        return RetrieveWithSquareCommand(self.payment_service, request).execute()
 
 
