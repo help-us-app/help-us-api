@@ -5,5 +5,5 @@ class DeleteLinkSquareCommand:
         self.access_token = request['access_token'] if 'access_token' in request else ''
 
     def execute(self):
-        return self.payment_service.delete_link_square(self)
+        return self.payment_service.delete(self)
 

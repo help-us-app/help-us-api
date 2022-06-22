@@ -11,4 +11,4 @@ class UpdateWithSquareCommand:
         self.access_token = request['access_token'] if 'access_token' in request else ''
 
     def execute(self):
-        return self.payment_service.update_with_square(self)
+        return self.payment_service.update(self)

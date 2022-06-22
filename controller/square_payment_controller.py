@@ -5,23 +5,23 @@ from models.commands.retrieve_with_square_command import RetrieveWithSquareComma
 from models.commands.update_with_square_command import UpdateWithSquareCommand
 
 
-class PaymentController:
+class SquarePaymentController:
     def __init__(self, payment_service):
         self.payment_service = payment_service
 
-    def authorize_with_square(self, request):
+    def authorize(self, request):
         return AuthorizeWithSquareCommand(self.payment_service, request).execute()
 
-    def checkout_with_square(self, request):
+    def create(self, request):
         return CheckoutWithSquareCommand(self.payment_service, request).execute()
 
-    def delete_link_square(self, request):
+    def delete(self, request):
         return DeleteLinkSquareCommand(self.payment_service, request).execute()
 
-    def retrieve_with_square(self, request):
+    def read(self, request):
         return RetrieveWithSquareCommand(self.payment_service, request).execute()
 
-    def update_with_square(self, request):
+    def update(self, request):
         return UpdateWithSquareCommand(self.payment_service, request).execute()
 
 
