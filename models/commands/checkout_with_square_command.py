@@ -11,4 +11,4 @@ class CheckoutWithSquareCommand:
         self.access_token = request['access_token'] if 'access_token' in request else ''
 
     def execute(self):
-        return self.square_service.create(self)
+        return self.square_service.checkout_with_square(self)
