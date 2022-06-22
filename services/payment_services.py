@@ -43,7 +43,7 @@ class PaymentService:
                 'grant_type': 'refresh_token',
                 'refresh_token': command.refresh_token,
             }).execute()
-            access_token = authorization_result['access_token']
+            access_token = authorization_result.access_token
         else:
             access_token = command.access_token
         checkout_request = CheckoutRequest({

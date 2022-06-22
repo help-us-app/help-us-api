@@ -1,4 +1,4 @@
-from models.responses.checkout_response import CheckoutResponse
+from models.responses.obtain_token_response import ObtainTokenResponse
 
 
 class AuthorizeWithSquareCommand:
@@ -8,5 +8,5 @@ class AuthorizeWithSquareCommand:
         self.refresh_token = request['refresh_token'] if 'refresh_token' in request else ''
         self.code = request['code'] if 'code' in request else ''
 
-    def execute(self) -> CheckoutResponse:
+    def execute(self) -> ObtainTokenResponse:
         return self.payment_service.authorize_with_square(self)
