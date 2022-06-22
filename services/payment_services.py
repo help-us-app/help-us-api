@@ -5,6 +5,7 @@ from models.commands.authorize_with_square_command import AuthorizeWithSquareCom
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
+from models.commands.update_with_square_command import UpdateWithSquareCommand
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
@@ -79,6 +80,39 @@ class PaymentService:
         response_json = json.loads(response.text)
         return CheckoutResponse(response_json)
 
+    def update_with_square(self, command: UpdateWithSquareCommand) -> bool:
+        if command.access_token == '':
+            authorization_result = AuthorizeWithSquareCommand(self, {
+                'grant_type': 'refresh_token',
+                'refresh_token': command.refresh_token,
+            }).execute()
+            access_token = authorization_result.access_token
+        else:
+            access_token = command.access_token
+
+        payment_link: CheckoutResponse = RetrieveWithSquareCommand(self, {
+            'access_token': access_token,
+            'id': command.id
+        }).execute()
+        if payment_link is None:
+            raise Exception('Payment link not found')
+        headers = {self.constants.content_type: self.constants.application_json,
+                   "Authorization": "Bearer " + access_token, 'Square-Version': '2022-06-16'}
+
+        request_body = {"payment_link": {
+            "payment_note": command.payment_note,
+            "version": payment_link.payment_link.version
+        }}
+
+        request_json = json.dumps(request_body)
+
+        response = self.request.request(self.constants.put,
+                                        self.variables.square_url + self.constants.payment_link_endpoint + command.id,
+                                        headers=headers, data=request_json)
+        print(response.text)
+        response.raise_for_status()
+        return True
+
     def delete_link_square(self, command: DeleteLinkSquareCommand) -> bool:
         headers = {self.constants.content_type: self.constants.application_json,
                    'Authorization': 'Bearer ' + command.access_token}
@@ -88,5 +122,4 @@ class PaymentService:
                                         headers=headers)
 
         response.raise_for_status()
-
         return True

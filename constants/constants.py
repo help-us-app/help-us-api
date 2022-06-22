@@ -1,5 +1,6 @@
 class Constants:
     def __init__(self):
+        self.put = 'PUT'
         self.get = 'GET'
         self.delete = 'DELETE'
         self.app_name = "help us app"
