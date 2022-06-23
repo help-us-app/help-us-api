@@ -5,11 +5,13 @@ from models.commands.authorize_with_square_command import AuthorizeWithSquareCom
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
+from models.commands.set_merchant_info_webhook_command import SetMerchantInfoWebHookCommand
 from models.commands.update_with_square_command import UpdateWithSquareCommand
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
 from models.responses.obtain_token_response import ObtainTokenResponse
+from repository.directus_repository import DirectusRepository
 
 
 class SquareService:
@@ -17,6 +19,7 @@ class SquareService:
         self.request = request
         self.variables = Variables()
         self.constants = Constants()
+        self.directus_repository = DirectusRepository(self.request)
 
     def get_access_token(self, command) -> str:
         if command.access_token == '':
@@ -124,3 +127,8 @@ class SquareService:
     def get_square_auth_link(self) -> str:
         scopes = '+'.join(self.constants.token_scopes)
         return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes
+
+    def set_merchant_information_for_user(self, command: SetMerchantInfoWebHookCommand):
+
+        self.directus_repository.set_merchant_information_for_user(command)
+        pass
