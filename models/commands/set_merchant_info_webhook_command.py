@@ -8,4 +8,4 @@ class SetMerchantInfoWebHookCommand:
         self.expires_in = expires_in
 
     def execute(self):
-        self.square_service.set_merchant_information_for_user(self)
+        return self.square_service.set_merchant_information_for_user(self)
