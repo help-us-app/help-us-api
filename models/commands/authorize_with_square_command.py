@@ -9,4 +9,4 @@ class AuthorizeWithSquareCommand:
         self.code = request['code'] if 'code' in request else ''
 
     def execute(self) -> ObtainTokenResponse:
-        return self.square_service.authorize(self)
+        return self.square_service.authorize_with_square(self)
