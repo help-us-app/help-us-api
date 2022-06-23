@@ -14,5 +14,18 @@ def index():
     return json.dumps(request.args)
 
 
+@app.route('/authorization', methods=['GET'])
+def authorization():
+    code = request.args.get('code')
+    state = request.args.get('state')
+    result = auth_controller.set_merchant_information({
+        'code': code,
+        'user_id': state
+    })
+    return {
+        'result': result
+    }
+
+
 if __name__ == "__main__":
     app.run()
