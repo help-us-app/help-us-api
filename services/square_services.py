@@ -126,9 +126,10 @@ class SquareService:
         response.raise_for_status()
         return True
 
-    def get_square_auth_link(self) -> str:
+    def get_square_auth_link(self, user_id) -> str:
         scopes = '+'.join(self.constants.token_scopes)
-        return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes
+        return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes + '&state=' + str(
+            user_id)
 
     def set_merchant_information_for_user(self, command: SetMerchantInfoWebHookCommand):
         merchantInfo: MerchantInfo = MerchantInfo({
@@ -138,4 +139,3 @@ class SquareService:
             "expires_in": command.expires_in,
         })
         return self.directus_repository.set_merchant_information_for_user(command.user_id, merchantInfo)
-

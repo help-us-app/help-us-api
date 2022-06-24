@@ -27,5 +27,14 @@ def authorization():
     }
 
 
+@app.route('/authorization_url', methods=['POST'])
+def authorization_url():
+    user_id = request.json['user_id']
+
+    return {
+        'url': auth_controller.get_auth_link(user_id)
+    }
+
+
 if __name__ == "__main__":
     app.run()
