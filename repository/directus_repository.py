@@ -12,8 +12,9 @@ class DirectusRepository:
         self.request = request
 
     def set_merchant_information_for_user(self, user_id, merchant_info: MerchantInfo):
-        url = self.variables.directus_url + '/items/user/' + str(user_id)
-        headers = {'Authorization': 'Bearer ' + self.variables.directus_token, self.constants.content_type : self.constants.application_json}
+        url = self.variables.directus_url + '/items/User/' + str(user_id)
+        headers = {'Authorization': 'Bearer ' + self.variables.directus_token,
+                   self.constants.content_type: self.constants.application_json}
         data = {'merchant_id': merchant_info.merchant_id, 'access_token': merchant_info.access_token,
                 'refresh_token': merchant_info.refresh_token, 'expires_in': merchant_info.expires_in}
         data = json.dumps(data)
