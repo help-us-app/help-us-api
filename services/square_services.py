@@ -4,6 +4,7 @@ from constants.variables import Variables
 from models.commands.authorize_with_square_command import AuthorizeWithSquareCommand
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
+from models.commands.list_locations_square_command import ListLocationsSquareCommand
 from models.commands.retrieve_location_square_command import RetrieveLocationSquareCommand
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 from models.commands.set_merchant_info_webhook_command import SetMerchantInfoWebHookCommand
@@ -12,7 +13,7 @@ from models.merchant_info import MerchantInfo
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
-from models.responses.location_response import LocationResponse
+from models.responses.location_response import LocationResponse, Location
 from models.responses.obtain_token_response import ObtainTokenResponse
 from repository.directus_repository import DirectusRepository
 
@@ -151,4 +152,17 @@ class SquareService:
         response.raise_for_status()
         response_json = json.loads(response.text)
         return LocationResponse(response_json)
+
+    def list_locations(self, command: ListLocationsSquareCommand) -> [Location]:
+        access_token = self.get_access_token(command)
+        headers = {self.constants.content_type: self.constants.application_json,
+                   "Authorization": "Bearer " + access_token}
+        response = self.request.request(self.constants.get,
+                                        self.variables.square_url + self.constants.version + self.constants.location_endpoint,
+                                        headers=headers)
+        response.raise_for_status()
+        response_json = json.loads(response.text)
+
+        for location in response_json['locations']:
+            yield Location(location)
 

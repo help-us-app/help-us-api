@@ -40,5 +40,18 @@ def get_location(location_id):
     }
 
 
+@app.route('/location', methods=['GET'])
+def list_locations():
+    result = location_controller.list_locations({
+        'access_token': request.args.get('access_token')
+    })
+
+    # print generator to list of dicts
+    locations = [location.to_dict() for location in result]
+    return {
+        'result': locations
+    }
+
+
 if __name__ == "__main__":
     app.run()
