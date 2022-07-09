@@ -2,11 +2,13 @@ import requests
 from flask import Flask, request, json
 
 from controller.square_auth_controller import SquareAuthController
+from controller.square_location_controller import SquareLocationController
 from services.square_services import SquareService
 
 app = Flask(__name__)
 square_service = SquareService(requests)
 auth_controller = SquareAuthController(square_service)
+location_controller = SquareLocationController(square_service)
 
 
 @app.route('/')
@@ -24,6 +26,17 @@ def authorization():
     })
     return {
         'result': result
+    }
+
+
+@app.route('/location/<location_id>', methods=['GET'])
+def get_location(location_id):
+    result = location_controller.get_location_information({
+        'location_id': location_id,
+        'access_token': request.args.get('access_token')
+    })
+    return {
+        'result': result.to_dict()
     }
 
 
