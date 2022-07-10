@@ -20,6 +20,5 @@ class SquareAuthController:
             'code': request['code']
         }).execute()
 
-        return SetMerchantInfoWebHookCommand(self.square_service, request['user_id'], response.merchant_id,
-                                             response.access_token, response.refresh_token,
-                                             response.expires_at).execute()
+        return SetMerchantInfoWebHookCommand(self.square_service, request['user_id'],
+                                             request['code'], response.merchant_id).execute()

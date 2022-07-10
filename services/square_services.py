@@ -4,13 +4,16 @@ from constants.variables import Variables
 from models.commands.authorize_with_square_command import AuthorizeWithSquareCommand
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
+from models.commands.list_locations_square_command import ListLocationsSquareCommand
+from models.commands.retrieve_location_square_command import RetrieveLocationSquareCommand
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 from models.commands.set_merchant_info_webhook_command import SetMerchantInfoWebHookCommand
 from models.commands.update_with_square_command import UpdateWithSquareCommand
-from models.merchant_info import MerchantInfo
+from models.oauth_response import OAuthResponse
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
+from models.responses.location_response import LocationResponse, Location
 from models.responses.obtain_token_response import ObtainTokenResponse
 from repository.directus_repository import DirectusRepository
 
@@ -126,16 +129,38 @@ class SquareService:
         response.raise_for_status()
         return True
 
-    def get_square_auth_link(self, user_id) -> str:
+    def get_square_auth_link(self) -> str:
         scopes = '+'.join(self.constants.token_scopes)
-        return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes + '&state=' + str(
-            user_id)
+        return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes
 
     def set_merchant_information_for_user(self, command: SetMerchantInfoWebHookCommand):
-        merchantInfo: MerchantInfo = MerchantInfo({
+        oauth_response: OAuthResponse = OAuthResponse({
+            "authorization_code": command.authorization_code,
             "merchant_id": command.merchant_id,
-            "access_token": command.access_token,
-            "refresh_token": command.refresh_token,
-            "expires_in": command.expires_in,
         })
-        return self.directus_repository.set_merchant_information_for_user(command.user_id, merchantInfo)
+        return self.directus_repository.set_merchant_information_for_user(command.user_id, oauth_response)
+
+    def get_location_information(self, command: RetrieveLocationSquareCommand) -> LocationResponse:
+        access_token = self.get_access_token(command)
+        headers = {self.constants.content_type: self.constants.application_json,
+                   "Authorization": "Bearer " + access_token}
+        response = self.request.request(self.constants.get,
+                                        self.variables.square_url + self.constants.version + self.constants.location_endpoint + command.location_id,
+                                        headers=headers)
+        response.raise_for_status()
+        response_json = json.loads(response.text)
+        return LocationResponse(response_json)
+
+    def list_locations(self, command: ListLocationsSquareCommand) -> [Location]:
+        access_token = self.get_access_token(command)
+        headers = {self.constants.content_type: self.constants.application_json,
+                   "Authorization": "Bearer " + access_token}
+        response = self.request.request(self.constants.get,
+                                        self.variables.square_url + self.constants.version + self.constants.location_endpoint,
+                                        headers=headers)
+        response.raise_for_status()
+        response_json = json.loads(response.text)
+
+        for location in response_json['locations']:
+            yield Location(location)
+

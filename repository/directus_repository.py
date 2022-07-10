@@ -2,7 +2,7 @@ import json
 
 from constants.constants import Constants
 from constants.variables import Variables
-from models.merchant_info import MerchantInfo
+from models.oauth_response import OAuthResponse
 
 
 class DirectusRepository:
@@ -11,12 +11,11 @@ class DirectusRepository:
         self.variables = Variables()
         self.request = request
 
-    def set_merchant_information_for_user(self, user_id, merchant_info: MerchantInfo):
+    def set_merchant_information_for_user(self, user_id, oauth_response: OAuthResponse):
         url = self.variables.directus_url + '/items/User/' + str(user_id)
         headers = {'Authorization': 'Bearer ' + self.variables.directus_token,
                    self.constants.content_type: self.constants.application_json}
-        data = {'merchant_id': merchant_info.merchant_id, 'access_token': merchant_info.access_token,
-                'refresh_token': merchant_info.refresh_token, 'expires_in': merchant_info.expires_in}
+        data = {'authorization_code': oauth_response.authorization_code, 'merchant_id': oauth_response.merchant_id}
         data = json.dumps(data)
         response = self.request.patch(url, headers=headers, data=data)
         response.raise_for_status()

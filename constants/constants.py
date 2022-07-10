@@ -1,5 +1,6 @@
 class Constants:
     def __init__(self):
+        self.location_endpoint = "locations/"
         self.put = 'PUT'
         self.get = 'GET'
         self.delete = 'DELETE'
