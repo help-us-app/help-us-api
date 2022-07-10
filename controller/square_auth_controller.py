@@ -15,7 +15,6 @@ class SquareAuthController:
         response: ObtainTokenResponse = AuthorizeWithSquareCommand(self.square_service, {
             'grant_type': request['grant_type'],
             'code': request['code'],
-            'refresh_token': request['refresh_token']
         }).execute()
 
         return SetMerchantInfoWebHookCommand(self.square_service, request['user_id'],
