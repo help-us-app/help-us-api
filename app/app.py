@@ -20,16 +20,12 @@ def index():
 def authorization():
     code = request.args.get('code')
     state = request.args.get('state')
-    refresh_token = request.args.get('refresh_token')
-    grant_type = request.args.get('grant_type')
-    if grant_type is None:
-        grant_type = 'authorization_code'
+    grant_type = 'authorization_code'
 
     result = auth_controller.update_merchant_information({
         'code': code,
         'user_id': state,
         'grant_type': grant_type,
-        'refresh_token': refresh_token
     })
     return {
         'result': result
