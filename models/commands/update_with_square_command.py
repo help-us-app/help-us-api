@@ -6,9 +6,7 @@ class UpdateWithSquareCommand:
             self.line_items = request['line_items']
         if 'payment_note' in request:
             self.payment_note = request['payment_note']
-
-        self.refresh_token = request['refresh_token'] if 'refresh_token' in request else ''
-        self.access_token = request['access_token'] if 'access_token' in request else ''
+        self.user_id = request['user_id']
 
     def execute(self):
         return self.square_service.update_with_square(self)

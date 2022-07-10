@@ -36,7 +36,7 @@ def authorization():
 def get_location(location_id):
     result = location_controller.get_location_information({
         'location_id': location_id,
-        'access_token': request.args.get('access_token')
+        'user_id': request.args.get('user_id'),
     })
     return {
         'result': result.to_dict()
@@ -46,7 +46,7 @@ def get_location(location_id):
 @app.route('/location', methods=['GET'])
 def list_locations():
     result = location_controller.list_locations({
-        'access_token': request.args.get('access_token')
+        'user_id': request.args.get('user_id'),
     })
 
     return {
