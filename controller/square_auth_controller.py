@@ -11,8 +11,8 @@ class SquareAuthController:
     def authorize(self, request):
         return AuthorizeWithSquareCommand(self.square_service, request).execute()
 
-    def get_auth_link(self):
-        return GetSquareAuthLinkCommand(self.square_service).execute()
+    def get_auth_link(self, user_id):
+        return GetSquareAuthLinkCommand(self.square_service, user_id).execute()
 
     def set_merchant_information(self, request):
         response: ObtainTokenResponse = AuthorizeWithSquareCommand(self.square_service, {
