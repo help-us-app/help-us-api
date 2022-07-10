@@ -10,18 +10,54 @@ class LocationResponse:
 
 class Location:
     def __init__(self, result):
-        self.id = result['id']
-        self.name = result['name']
-        self.address = Address(result['address'])
-        self.status = result['status']
-        self.merchant_id = result['merchant_id']
-        self.country = result['country']
-        self.language_code = result['language_code']
-        self.currency = result['currency']
-        self.business_name = result['business_name']
-        self.business_email = result['business_email']
-        self.logo_url = result['logo_url']
-        self.pos_background_url = result['pos_background_url']
+        if 'id' in result:
+            self.id = result['id']
+        else:
+            self.id = ''
+        if 'name' in result:
+            self.name = result['name']
+        else:
+            self.name = ''
+        if 'address' in result:
+            self.address = Address(result['address'])
+        else:
+            self.address = Address({})
+        if 'status' in result:
+            self.status = result['status']
+        else:
+            self.status = ''
+        if 'merchant_id' in result:
+            self.merchant_id = result['merchant_id']
+        else:
+            self.merchant_id = ''
+        if 'country' in result:
+            self.country = result['country']
+        else:
+            self.country = ''
+        if 'language_code' in result:
+            self.language_code = result['language_code']
+        else:
+            self.language_code = ''
+        if 'currency' in result:
+            self.currency = result['currency']
+        else:
+            self.currency = ''
+        if 'business_name' in result:
+            self.business_name = result['business_name']
+        else:
+            self.business_name = ''
+        if 'business_email' in result:
+            self.business_email = result['business_email']
+        else:
+            self.business_email = ''
+        if 'logo_url' in result:
+            self.logo_url = result['logo_url']
+        else:
+            self.logo_url = ''
+        if 'pos_background_url' in result:
+            self.pos_background_url = result['pos_background_url']
+        else:
+            self.pos_background_url = ''
 
     def to_dict(self):
         return {
@@ -42,11 +78,16 @@ class Location:
 
 class Address:
     def __init__(self, result):
-        self.address_line_1 = result['address_line_1']
-        self.locality = result['locality']
-        self.administrative_district_level_1 = result['administrative_district_level_1']
-        self.postal_code = result['postal_code']
-        self.country = result['country']
+        if 'address_line_1' in result:
+            self.address_line_1 = result['address_line_1']
+        if 'locality' in result:
+            self.locality = result['locality']
+        if 'administrative_district_level_1' in result:
+            self.administrative_district_level_1 = result['administrative_district_level_1']
+        if 'postal_code' in result:
+            self.postal_code = result['postal_code']
+        if 'country' in result:
+            self.country = result['country']
 
     def to_dict(self):
         return {
