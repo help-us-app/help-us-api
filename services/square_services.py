@@ -64,7 +64,6 @@ class SquareService:
                                         self.variables.square_url + self.constants.obtain_token_endpoint,
                                         data=request_json,
                                         headers=headers)
-        print(response.text)
         response.raise_for_status()
         response_json = json.loads(response.text)
         return ObtainTokenResponse(response_json)
@@ -108,7 +107,7 @@ class SquareService:
     def update_with_square(self, command: UpdateWithSquareCommand) -> bool:
         access_token = self.get_access_token(command.user_id)
         payment_link: CheckoutResponse = RetrieveWithSquareCommand(self, {
-            'access_token': access_token,
+            'user_id': command.user_id,
             'id': command.id
         }).execute()
         if payment_link is None:
@@ -126,7 +125,6 @@ class SquareService:
         response = self.request.request(self.constants.put,
                                         self.variables.square_url + self.constants.version + self.constants.payment_link_endpoint + command.id,
                                         headers=headers, data=request_json)
-        print(response.text)
         response.raise_for_status()
         return True
 
