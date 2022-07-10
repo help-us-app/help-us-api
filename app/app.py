@@ -46,10 +46,8 @@ def list_locations():
         'access_token': request.args.get('access_token')
     })
 
-    # print generator to list of dicts
-    locations = [location.to_dict() for location in result]
     return {
-        'result': locations
+        'result': [location.to_dict() for location in result]
     }
 
 
