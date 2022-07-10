@@ -58,6 +58,10 @@ class Location:
             self.pos_background_url = result['pos_background_url']
         else:
             self.pos_background_url = ''
+        if 'description' in result:
+            self.description = result['description']
+        else:
+            self.description = ''
 
     def to_dict(self):
         return {
