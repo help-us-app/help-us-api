@@ -75,6 +75,7 @@ class Location:
             'currency': self.currency,
             'business_name': self.business_name,
             'business_email': self.business_email,
+            'description': self.description,
             'logo_url': self.logo_url,
             'pos_background_url': self.pos_background_url
         }
