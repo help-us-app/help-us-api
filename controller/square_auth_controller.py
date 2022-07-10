@@ -8,17 +8,16 @@ class SquareAuthController:
     def __init__(self, square_service):
         self.square_service = square_service
 
-    def authorize(self, request):
-        return AuthorizeWithSquareCommand(self.square_service, request).execute()
-
     def get_auth_link(self, user_id):
         return GetSquareAuthLinkCommand(self.square_service, user_id).execute()
 
-    def set_merchant_information(self, request):
+    def update_merchant_information(self, request):
         response: ObtainTokenResponse = AuthorizeWithSquareCommand(self.square_service, {
-            'grant_type': 'authorization_code',
-            'code': request['code']
+            'grant_type': request['grant_type'],
+            'code': request['code'],
+            'refresh_token': request['refresh_token']
         }).execute()
 
         return SetMerchantInfoWebHookCommand(self.square_service, request['user_id'],
-                                             request['code'], response.merchant_id).execute()
+                                             request['code'], response.merchant_id, response.access_token,
+                                             response.refresh_token, response.expires_at).execute()

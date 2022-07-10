@@ -20,9 +20,11 @@ def index():
 def authorization():
     code = request.args.get('code')
     state = request.args.get('state')
-    result = auth_controller.set_merchant_information({
+    refresh_token = request.args.get('refresh_token')
+    result = auth_controller.update_merchant_information({
         'code': code,
-        'user_id': state
+        'user_id': state,
+        'refresh_token': refresh_token
     })
     return {
         'result': result
