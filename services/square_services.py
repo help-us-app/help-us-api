@@ -9,7 +9,7 @@ from models.commands.retrieve_location_square_command import RetrieveLocationSqu
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 from models.commands.set_merchant_info_webhook_command import SetMerchantInfoWebHookCommand
 from models.commands.update_with_square_command import UpdateWithSquareCommand
-from models.merchant_info import MerchantInfo
+from models.oauth_response import OAuthResponse
 from models.requests.checkout_request import CheckoutRequest
 from models.requests.obtain_token_request import ObtainTokenRequest
 from models.responses.checkout_response import CheckoutResponse
@@ -134,13 +134,11 @@ class SquareService:
         return self.variables.square_url + self.constants.authorize_endpoint + '?client_id=' + self.variables.client_id + '&scope=' + scopes
 
     def set_merchant_information_for_user(self, command: SetMerchantInfoWebHookCommand):
-        merchantInfo: MerchantInfo = MerchantInfo({
+        oauth_response: OAuthResponse = OAuthResponse({
+            "authorization_code": command.authorization_code,
             "merchant_id": command.merchant_id,
-            "access_token": command.access_token,
-            "refresh_token": command.refresh_token,
-            "expires_in": command.expires_in,
         })
-        return self.directus_repository.set_merchant_information_for_user(command.user_id, merchantInfo)
+        return self.directus_repository.set_merchant_information_for_user(command.user_id, oauth_response)
 
     def get_location_information(self, command: RetrieveLocationSquareCommand) -> LocationResponse:
         access_token = self.get_access_token(command)

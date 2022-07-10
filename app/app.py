@@ -16,7 +16,7 @@ def index():
     return json.dumps(request.args)
 
 
-@app.route('/authorization', methods=['GET'])
+@app.route('/oauth', methods=['GET'])
 def authorization():
     code = request.args.get('code')
     state = request.args.get('state')
@@ -52,4 +52,4 @@ def list_locations():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8080, debug=True)
