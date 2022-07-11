@@ -34,11 +34,12 @@ class SquareService:
 
         expires_in = datetime.strptime(user.expires_in, '%Y-%m-%dT%H:%M:%SZ')
 
-        if datetime.now() > expires_in:
-            response = self.authorize_with_square(AuthorizeWithSquareCommand({
-                'grant_type': 'refresh_token',
+        now = datetime.utcnow()
+        if now > expires_in:
+            response = AuthorizeWithSquareCommand(self, {
+                'grant_type': "refresh_token",
                 'refresh_token': user.refresh_token
-            }))
+            }).execute()
             self.directus_repository.set_merchant_information_for_user(user_id, MerchantInfo({
                 'access_token': response.access_token,
                 'refresh_token': response.refresh_token,
@@ -89,6 +90,7 @@ class SquareService:
                                         self.variables.square_url + self.constants.version + self.constants.payment_link_endpoint,
                                         data=request_json,
                                         headers=headers)
+        print(response.text)
         response.raise_for_status()
         response_json = json.loads(response.text)
         return CheckoutResponse(response_json)
