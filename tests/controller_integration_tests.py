@@ -16,7 +16,7 @@ class MyTestCase(unittest.TestCase):
     location_controller = SquareLocationController(square_service)
     payment_controller = SquarePaymentController(square_service)
     user_id = 'ad195d18-da32-4000-a3d5-b5826b501016'
-    location_id = 'L8CCETXTQPQVV'
+    location_id = 'LV7C5754RDGTN'
     payment_link_id = None
 
     def test_list_locations(self):
@@ -49,7 +49,7 @@ class MyTestCase(unittest.TestCase):
                     "item_type": "ITEM",
                     "base_price_money": {
                         "amount": 10000,
-                        "currency": "AUD"
+                        "currency": "USD"
                     }
                 }
             ]
@@ -58,7 +58,7 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(result.payment_link.url is not None)
         self.list_payment(result.payment_link.id)
         self.update_payment(result.payment_link.id)
-        self.delete_payment(result.payment_link.id)
+        # self.delete_payment(result.payment_link.id)
 
     def list_payment(self, payment_link_id):
         result = self.payment_controller.read({
