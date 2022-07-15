@@ -2,10 +2,39 @@ class CheckoutRequest:
     def __init__(self, request):
         self.order = Order(request['order'])
         self.source = request['source']
+        self.checkout_options = CheckoutOptions()
 
     def to_dict(self):
         return {
-            'order': self.order.to_dict()
+            'order': self.order.to_dict(),
+            'checkout_options': self.checkout_options.to_dict(),
+            'source': self.source
+        }
+
+
+class CheckoutOptions:
+    def __init__(self):
+        self.accepted_payment_methods = AcceptedPaymentMethods()
+
+    def to_dict(self):
+        return {
+            'accepted_payment_methods': self.accepted_payment_methods.to_dict()
+        }
+
+
+class AcceptedPaymentMethods:
+    def __init__(self):
+        self.apple_pay = True
+        self.google_pay = True
+        self.cash_app_pay = True
+        self.afterpay_clearpay = True
+
+    def to_dict(self):
+        return {
+            'apple_pay': self.apple_pay,
+            'google_pay': self.google_pay,
+            'cash_app_pay': self.cash_app_pay,
+            'afterpay_clearpay': self.afterpay_clearpay
         }
 
 
