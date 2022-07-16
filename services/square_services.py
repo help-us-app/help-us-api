@@ -73,7 +73,6 @@ class SquareService:
         access_token = self.get_access_token(command.user_id)
         checkout_request = CheckoutRequest({
             "order": {
-                "customer_id": command.customer_id,
                 "location_id": command.location_id,
                 "line_items": command.line_items,
                 "payment_note": command.payment_note,

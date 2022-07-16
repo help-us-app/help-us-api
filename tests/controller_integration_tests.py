@@ -40,7 +40,6 @@ class MyTestCase(unittest.TestCase):
             'location_id': self.location_id,
             "buyer_email": "carlduncanja@gmail.com",
             "buyer_phone_number": "+1-202-555-0125",
-            "customer_id": "VY7D5580R93SDDNPB6B5S78FHW",
             "payment_note": "Test Note",
             "line_items": [
                 {
@@ -58,7 +57,7 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(result.payment_link.url is not None)
         self.list_payment(result.payment_link.id)
         self.update_payment(result.payment_link.id)
-        # self.delete_payment(result.payment_link.id)
+        self.delete_payment(result.payment_link.id)
 
     def list_payment(self, payment_link_id):
         result = self.payment_controller.read({
