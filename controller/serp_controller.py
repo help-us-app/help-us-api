@@ -6,4 +6,4 @@ class SerpController:
         self.serp_service = serp_service
 
     def search(self, query):
-        return SerpSearchCommand(self.serp_service, query).execute()
+        return SerpSearchCommand(self.serp_service, query['query']).execute()
