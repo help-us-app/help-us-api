@@ -13,3 +13,4 @@ class Constants:
         self.obtain_token_endpoint = 'oauth2/token'
         self.authorize_endpoint = 'oauth2/authorize'
         self.version = 'v2/'
+        self.serp_api_engine = "walmart"

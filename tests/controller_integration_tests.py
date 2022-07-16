@@ -2,19 +2,23 @@ import unittest
 
 import requests
 
+from controller.serp_controller import SerpController
 from controller.square_auth_controller import SquareAuthController
 from controller.square_location_controller import SquareLocationController
 from controller.square_payment_controller import SquarePaymentController
 from models.responses.checkout_response import CheckoutResponse
 from models.responses.location_response import LocationResponse
+from services.serp_service import SerpService
 from services.square_services import SquareService
 
 
 class MyTestCase(unittest.TestCase):
     square_service = SquareService(requests)
+    serp_service = SerpService(requests)
     auth_controller = SquareAuthController(square_service)
     location_controller = SquareLocationController(square_service)
     payment_controller = SquarePaymentController(square_service)
+    serp_controller = SerpController(serp_service)
     user_id = 'ad195d18-da32-4000-a3d5-b5826b501016'
     location_id = 'LV7C5754RDGTN'
     payment_link_id = None
@@ -79,6 +83,12 @@ class MyTestCase(unittest.TestCase):
             'id': payment_link_id,
         })
         self.assertTrue(result)
+
+    def test_search(self):
+        result = self.serp_controller.search({
+            'query': 'baby shoes',
+        })
+        self.assertTrue(result is not None)
 
 
 if __name__ == '__main__':
