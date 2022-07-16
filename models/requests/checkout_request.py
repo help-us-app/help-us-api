@@ -40,7 +40,6 @@ class AcceptedPaymentMethods:
 
 class Order:
     def __init__(self, request):
-        self.customer_id = request['customer_id']
         self.location_id = request['location_id']
         self.line_items = [LineItem(item) for item in request['line_items']]
         self.payment_note = request['payment_note']
@@ -48,7 +47,6 @@ class Order:
 
     def to_dict(self):
         return {
-            'customer_id': self.customer_id,
             'location_id': self.location_id,
             'line_items': [item.to_dict() for item in self.line_items],
             'payment_note': self.payment_note,
