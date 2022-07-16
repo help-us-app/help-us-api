@@ -11,3 +11,5 @@ class Variables:
         self.square_url = os.getenv('SQUARE_URL')
         self.client_id = os.getenv('CLIENT_ID')
         self.client_secret = os.getenv('CLIENT_SECRET')
+        self.serp_url = os.getenv('SERP_URL')
+        self.serp_key = os.getenv('SERP_KEY')
