@@ -1,5 +1,6 @@
 import requests
 from flask import Flask, request, json
+from werkzeug.utils import redirect
 
 from controller.serp_controller import SerpController
 from controller.square_auth_controller import SquareAuthController
@@ -34,6 +35,15 @@ def authorization():
     return {
         'result': result
     }
+
+
+@app.route('/oauth/url', methods=['GET'])
+def get_authorization_url():
+    user_id = request.args.get('user_id')
+
+    result = auth_controller.get_auth_link(user_id)
+
+    return redirect(result)
 
 
 @app.route('/location/<location_id>', methods=['GET'])
