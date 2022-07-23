@@ -1,3 +1,4 @@
+import http
 import requests
 from flask import Flask, request, json
 from werkzeug.utils import redirect
@@ -27,14 +28,12 @@ def authorization():
     state = request.args.get('state')
     grant_type = 'authorization_code'
 
-    result = auth_controller.update_merchant_information({
+    auth_controller.update_merchant_information({
         'code': code,
         'user_id': state,
         'grant_type': grant_type,
     })
-    return {
-        'result': result
-    }
+    return '', http.HTTPStatus.NO_CONTENT
 
 
 @app.route('/oauth/url', methods=['GET'])
