@@ -1,8 +1,6 @@
 class User:
     def __init__(self, info):
         self.id = info['id']
-        self.email = info['email']
-        self.password = info['password']
         if 'authorization_code' in info:
             self.authorization_code = info['authorization_code']
         if 'location_id' in info:
