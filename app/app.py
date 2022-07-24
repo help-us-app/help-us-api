@@ -62,9 +62,9 @@ def list_locations():
         'user_id': request.args.get('user_id'),
     })
 
-    return {
+    return _cors_actual_response(json.jsonify({
         'result': [location.to_dict() for location in result]
-    }
+    }))
 
 
 @app.route('/search', methods=['GET'])
@@ -75,6 +75,11 @@ def search():
     return {
         'result': [serp.to_dict() for serp in result]
     }
+
+
+def _cors_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 if __name__ == "__main__":
