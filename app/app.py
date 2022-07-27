@@ -3,18 +3,14 @@ import requests
 from flask import Flask, request, json
 from werkzeug.utils import redirect
 
-from controller.serp_controller import SerpController
 from controller.square_auth_controller import SquareAuthController
 from controller.square_location_controller import SquareLocationController
-from services.serp_service import SerpService
 from services.square_services import SquareService
 
 app = Flask(__name__)
 square_service = SquareService(requests)
-serp_service = SerpService(requests)
 auth_controller = SquareAuthController(square_service)
 location_controller = SquareLocationController(square_service)
-serp_controller = SerpController(serp_service)
 
 
 @app.route('/')
@@ -65,16 +61,6 @@ def list_locations():
     return _cors_actual_response(json.jsonify({
         'result': [location.to_dict() for location in result]
     }))
-
-
-@app.route('/search', methods=['GET'])
-def search():
-    result = serp_controller.search({
-        'query': request.args.get('query'),
-    })
-    return {
-        'result': [serp.to_dict() for serp in result]
-    }
 
 
 def _cors_actual_response(response):
