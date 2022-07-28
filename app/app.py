@@ -47,9 +47,8 @@ def get_location(location_id):
         'location_id': location_id,
         'user_id': request.args.get('user_id'),
     })
-    return {
-        'result': result.to_dict()
-    }
+
+    return _cors_actual_response(json.jsonify(result.to_dict()))
 
 
 @app.route('/location', methods=['GET'])
