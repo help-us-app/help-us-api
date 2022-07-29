@@ -72,6 +72,11 @@ def create_payment():
 
     line_items = []
     num = 0
+    payment_note = {
+        'buyer_email': request_json['buyer_email'],
+        'line_items': [],
+    }
+
     for line_item in request_json['line_items']:
         num += 1
         line_items.append({
@@ -84,11 +89,15 @@ def create_payment():
             }
         })
 
+        payment_note['line_items'].append(line_item['id'])
+
+    payment_note = json.dumps(payment_note)
+
     json_parsed = {
         'user_id': request_json.get('user_id'),
         'location_id': request_json.get('location_id'),
         "buyer_email": request_json.get('buyer_email'),
-        "payment_note": request_json.get('payment_note'),
+        "payment_note": payment_note,
         "line_items": line_items
     }
     result = square_payment_controller.create(json_parsed)
