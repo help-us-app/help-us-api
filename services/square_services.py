@@ -75,10 +75,10 @@ class SquareService:
             "order": {
                 "location_id": command.location_id,
                 "line_items": command.line_items,
-                "payment_note": command.payment_note,
                 "pre_populated_data": {
                     "buyer_email": command.buyer_email,
                 }},
+            "payment_note": command.payment_note,
             'source': self.constants.app_name,
         })
         request_json = json.dumps(checkout_request.to_dict())

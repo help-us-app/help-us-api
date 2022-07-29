@@ -2,12 +2,14 @@ class CheckoutRequest:
     def __init__(self, request):
         self.order = Order(request['order'])
         self.source = request['source']
+        self.payment_note = request['payment_note']
         self.checkout_options = CheckoutOptions()
 
     def to_dict(self):
         return {
             'order': self.order.to_dict(),
             'checkout_options': self.checkout_options.to_dict(),
+            'payment_note': self.payment_note,
             'source': self.source
         }
 
@@ -42,14 +44,12 @@ class Order:
     def __init__(self, request):
         self.location_id = request['location_id']
         self.line_items = [LineItem(item) for item in request['line_items']]
-        self.payment_note = request['payment_note']
         self.pre_populated_data = PrePopulatedData(request['pre_populated_data'])
 
     def to_dict(self):
         return {
             'location_id': self.location_id,
             'line_items': [item.to_dict() for item in self.line_items],
-            'payment_note': self.payment_note,
             'pre_populated_data': self.pre_populated_data.to_dict()
         }
 
