@@ -5,12 +5,14 @@ from werkzeug.utils import redirect
 
 from controller.square_auth_controller import SquareAuthController
 from controller.square_location_controller import SquareLocationController
+from controller.square_payment_controller import SquarePaymentController
 from services.square_services import SquareService
 
 app = Flask(__name__)
 square_service = SquareService(requests)
 auth_controller = SquareAuthController(square_service)
 location_controller = SquareLocationController(square_service)
+square_payment_controller = SquarePaymentController(square_service)
 
 
 @app.route('/')
@@ -60,6 +62,34 @@ def list_locations():
     return _cors_actual_response(json.jsonify({
         'result': [location.to_dict() for location in result]
     }))
+
+
+@app.route('/payment', methods=['POST'])
+def create_payment():
+    request_json = request.get_json()
+
+    line_items = []
+    for line_item in request_json['line_items']:
+        line_items.append({
+            "name": line_item['title'],
+            "quantity": "1",
+            "item_type": "ITEM",
+            "base_price_money": {
+                "amount": int(line_item['price'].replace('$', '').replace('.', '')),
+                "currency": "USD"
+            }
+        })
+
+    json_parsed = {
+            'user_id': request_json.get('user_id'),
+            'location_id': request_json.get('location_id'),
+            "buyer_email": request_json.get('buyer_email'),
+            "payment_note": request_json.get('payment_note'),
+            "line_items": line_items
+        }
+    result = square_payment_controller.create(json_parsed)
+
+    return _cors_actual_response(json.jsonify(result.to_dict()))
 
 
 def _cors_actual_response(response):
