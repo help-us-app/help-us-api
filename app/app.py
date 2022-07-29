@@ -2,6 +2,7 @@ import http
 import requests
 from flask import Flask, request, json
 from werkzeug.utils import redirect
+from flask_cors import CORS
 
 from controller.square_auth_controller import SquareAuthController
 from controller.square_location_controller import SquareLocationController
@@ -9,6 +10,7 @@ from controller.square_payment_controller import SquarePaymentController
 from services.square_services import SquareService
 
 app = Flask(__name__)
+CORS(app)
 square_service = SquareService(requests)
 auth_controller = SquareAuthController(square_service)
 location_controller = SquareLocationController(square_service)
@@ -50,7 +52,7 @@ def get_location(location_id):
         'user_id': request.args.get('user_id'),
     })
 
-    return _cors_actual_response(json.jsonify(result.to_dict()))
+    return json.jsonify(result.to_dict())
 
 
 @app.route('/location', methods=['GET'])
@@ -59,9 +61,9 @@ def list_locations():
         'user_id': request.args.get('user_id'),
     })
 
-    return _cors_actual_response(json.jsonify({
+    return json.jsonify({
         'result': [location.to_dict() for location in result]
-    }))
+    })
 
 
 @app.route('/payment', methods=['POST'])
@@ -69,9 +71,11 @@ def create_payment():
     request_json = request.get_json()
 
     line_items = []
+    num = 0
     for line_item in request_json['line_items']:
+        num += 1
         line_items.append({
-            "name": line_item['title'],
+            "name": "Item #{}".format(num),
             "quantity": "1",
             "item_type": "ITEM",
             "base_price_money": {
@@ -81,22 +85,15 @@ def create_payment():
         })
 
     json_parsed = {
-            'user_id': request_json.get('user_id'),
-            'location_id': request_json.get('location_id'),
-            "buyer_email": request_json.get('buyer_email'),
-            "payment_note": request_json.get('payment_note'),
-            "line_items": line_items
-        }
+        'user_id': request_json.get('user_id'),
+        'location_id': request_json.get('location_id'),
+        "buyer_email": request_json.get('buyer_email'),
+        "payment_note": request_json.get('payment_note'),
+        "line_items": line_items
+    }
     result = square_payment_controller.create(json_parsed)
 
-    return _cors_actual_response(json.jsonify(result.to_dict()))
-
-
-def _cors_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Headers", "*")
-    response.headers.add("Access-Control-Allow-Methods", "*")
-    return response
+    return json.jsonify(result.to_dict())
 
 
 if __name__ == "__main__":
