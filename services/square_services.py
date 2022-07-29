@@ -78,7 +78,6 @@ class SquareService:
                 "payment_note": command.payment_note,
                 "pre_populated_data": {
                     "buyer_email": command.buyer_email,
-                    "buyer_phone_number": command.buyer_phone_number,
                 }},
             'source': self.constants.app_name,
         })

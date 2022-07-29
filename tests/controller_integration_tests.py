@@ -15,7 +15,7 @@ class MyTestCase(unittest.TestCase):
     auth_controller = SquareAuthController(square_service)
     location_controller = SquareLocationController(square_service)
     payment_controller = SquarePaymentController(square_service)
-    user_id = 'ad195d18-da32-4000-a3d5-b5826b501016'
+    user_id = '27b47c9a-dfaf-4a60-b2de-ef6744ff27d0'
     location_id = 'LV7C5754RDGTN'
     payment_link_id = None
 
@@ -39,7 +39,6 @@ class MyTestCase(unittest.TestCase):
             'user_id': self.user_id,
             'location_id': self.location_id,
             "buyer_email": "carlduncanja@gmail.com",
-            "buyer_phone_number": "+1-202-555-0125",
             "payment_note": "Test Note",
             "line_items": [
                 {
@@ -79,6 +78,7 @@ class MyTestCase(unittest.TestCase):
             'id': payment_link_id,
         })
         self.assertTrue(result)
+
 
 if __name__ == '__main__':
     unittest.main()

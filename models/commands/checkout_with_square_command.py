@@ -5,7 +5,6 @@ class CheckoutWithSquareCommand:
         self.location_id = request['location_id']
         self.line_items = request['line_items']
         self.buyer_email = request['buyer_email']
-        self.buyer_phone_number = request['buyer_phone_number']
         self.payment_note = request['payment_note']
 
     def execute(self):

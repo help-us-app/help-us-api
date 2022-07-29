@@ -73,10 +73,8 @@ class LineItem:
 class PrePopulatedData:
     def __init__(self, request):
         self.buyer_email = request['buyer_email']
-        self.buyer_phone_number = request['buyer_phone_number']
 
     def to_dict(self):
         return {
             'buyer_email': self.buyer_email,
-            'buyer_phone_number': self.buyer_phone_number
         }
