@@ -34,3 +34,13 @@ class DirectusRepository:
         response = self.request.get(url, headers=headers)
         response.raise_for_status()
         return User(response.json()['data'])
+
+    def update_items_status_to_complete(self, item_ids):
+        url = self.variables.directus_url + '/items/Item/'
+        headers = {'Authorization': 'Bearer ' + self.variables.directus_token,
+                   self.constants.content_type: self.constants.application_json}
+        data = {'keys': item_ids, 'data': {'purchased': True}}
+        data = json.dumps(data)
+        response = self.request.patch(url, headers=headers, data=data)
+        response.raise_for_status()
+        return True

@@ -1,5 +1,6 @@
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
+from models.commands.payment_square_webook_command import PaymentSquareWebhookCommand
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 from models.commands.update_with_square_command import UpdateWithSquareCommand
 
@@ -19,3 +20,6 @@ class SquarePaymentController:
 
     def update(self, request):
         return UpdateWithSquareCommand(self.square_service, request).execute()
+
+    def webhook(self, request):
+        return PaymentSquareWebhookCommand(self.square_service, request).execute()

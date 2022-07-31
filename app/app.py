@@ -105,5 +105,16 @@ def create_payment():
     return json.jsonify(result.to_dict())
 
 
+@app.route('/payment/webhook', methods=['POST'])
+def payment_webhook():
+    request_json = request.get_json()['data']['object']['payment']['note']
+
+    request_json = json.loads(request_json)
+
+    square_payment_controller.webhook(request_json['line_items'])
+
+    return '', http.HTTPStatus.NO_CONTENT
+
+
 if __name__ == "__main__":
     app.run(port=8081, debug=True)

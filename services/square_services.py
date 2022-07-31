@@ -179,3 +179,6 @@ class SquareService:
 
         for location in response_json['locations']:
             yield Location(location)
+
+    def update_items_status_to_complete(self, items_id):
+        self.directus_repository.update_items_status_to_complete(items_id)
