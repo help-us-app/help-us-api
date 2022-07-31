@@ -62,6 +62,22 @@ class Location:
             self.description = result['description']
         else:
             self.description = ''
+        if 'twitter_username' in result:
+            self.twitter_username = result['twitter_username']
+        else:
+            self.twitter_username = ''
+        if 'instagram_username' in result:
+            self.instagram_username = result['instagram_username']
+        else:
+            self.instagram_username = ''
+        if 'facebook_url' in result:
+            self.facebook_url = result['facebook_url']
+        else:
+            self.facebook_url = ''
+        if 'phone_number' in result:
+            self.phone_number = result['phone_number']
+        else:
+            self.phone_number = ''
 
     def to_dict(self):
         return {
@@ -77,7 +93,11 @@ class Location:
             'business_email': self.business_email,
             'description': self.description,
             'logo_url': self.logo_url,
-            'pos_background_url': self.pos_background_url
+            'pos_background_url': self.pos_background_url,
+            'twitter_username': self.twitter_username,
+            'instagram_username': self.instagram_username,
+            'facebook_url': self.facebook_url,
+            'phone_number': self.phone_number,
         }
 
 
