@@ -7,6 +7,7 @@ from models.commands.authorize_with_square_command import AuthorizeWithSquareCom
 from models.commands.checkout_with_square_command import CheckoutWithSquareCommand
 from models.commands.delete_link_square_command import DeleteLinkSquareCommand
 from models.commands.list_locations_square_command import ListLocationsSquareCommand
+from models.commands.payment_square_webook_command import PaymentSquareWebhookCommand
 from models.commands.retrieve_location_square_command import RetrieveLocationSquareCommand
 from models.commands.retrieve_with_square_command import RetrieveWithSquareCommand
 from models.commands.set_merchant_info_webhook_command import SetMerchantInfoWebHookCommand
@@ -180,5 +181,5 @@ class SquareService:
         for location in response_json['locations']:
             yield Location(location)
 
-    def update_items_status_to_complete(self, items_id):
-        self.directus_repository.update_items_status_to_complete(items_id)
+    def update_items_status_to_complete(self, command: PaymentSquareWebhookCommand):
+        self.directus_repository.update_items_status_to_complete(command.item_ids, command.buyer_email)

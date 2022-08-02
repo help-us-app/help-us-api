@@ -111,7 +111,10 @@ def payment_webhook():
 
     request_json = json.loads(request_json)
 
-    square_payment_controller.webhook(request_json['line_items'])
+    square_payment_controller.webhook({
+        'item_ids': request_json['line_items'],
+        'buyer_email': request_json['buyer_email'],
+    })
 
     return '', http.HTTPStatus.NO_CONTENT
 
