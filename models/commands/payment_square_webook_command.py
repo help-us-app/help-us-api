@@ -5,4 +5,4 @@ class PaymentSquareWebhookCommand:
         self.item_ids = request['item_ids']
 
     def execute(self):
-        return self.square_service.update_items_status_to_complete(self.item_ids)
+        return self.square_service.update_items_status_to_complete(self)
