@@ -39,7 +39,7 @@ class DirectusRepository:
         url = self.variables.directus_url + '/items/Item/'
         headers = {'Authorization': 'Bearer ' + self.variables.directus_token,
                    self.constants.content_type: self.constants.application_json}
-        data = {'keys': item_ids, 'data': {'purchased': True}, 'bought_by': buyer_email}
+        data = {'keys': item_ids, 'data': {'purchased': True, 'bought_by': buyer_email}, }
         data = json.dumps(data)
         response = self.request.patch(url, headers=headers, data=data)
         response.raise_for_status()
