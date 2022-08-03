@@ -33,7 +33,7 @@ def authorization():
         'user_id': state,
         'grant_type': grant_type,
     })
-    return '', http.HTTPStatus.NO_CONTENT
+    return "Authorization successful, you can close this window."
 
 
 @app.route('/oauth/url', methods=['GET'])
