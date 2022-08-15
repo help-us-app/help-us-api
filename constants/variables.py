@@ -11,3 +11,4 @@ class Variables:
         self.square_url = os.getenv('SQUARE_URL')
         self.client_id = os.getenv('CLIENT_ID')
         self.client_secret = os.getenv('CLIENT_SECRET')
+        self.middleware_token = os.getenv('MIDDLEWARE_TOKEN')

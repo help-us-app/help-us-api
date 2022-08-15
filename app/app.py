@@ -4,13 +4,17 @@ from flask import Flask, request, json
 from werkzeug.utils import redirect
 from flask_cors import CORS
 
+from constants.variables import Variables
 from controller.square_auth_controller import SquareAuthController
 from controller.square_location_controller import SquareLocationController
 from controller.square_payment_controller import SquarePaymentController
+from middleware.middleware import middleware
 from services.square_services import SquareService
 
 app = Flask(__name__)
 CORS(app)
+variables = Variables()
+app.wsgi_app = middleware(app.wsgi_app, variables.middleware_token)
 square_service = SquareService(requests)
 auth_controller = SquareAuthController(square_service)
 location_controller = SquareLocationController(square_service)
