@@ -58,7 +58,7 @@ def get_location(location_id):
     })
 
     response = json.jsonify(result.to_dict())
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Origin', 'https://help-us-app.com/')
     return response
 
 
