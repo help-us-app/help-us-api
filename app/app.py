@@ -12,7 +12,7 @@ from middleware.middleware import middleware
 from services.square_services import SquareService
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, allow_headers=['Authorization'])
 variables = Variables()
 app.wsgi_app = middleware(app.wsgi_app, variables.middleware_token)
 square_service = SquareService(requests)
