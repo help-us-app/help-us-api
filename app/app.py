@@ -12,7 +12,7 @@ from middleware.middleware import middleware
 from services.square_services import SquareService
 
 app = Flask(__name__)
-CORS(app, allow_headers=['Authorization'], expose_headers=['Authorization'], supports_credentials=True,
+CORS(app, supports_credentials=True,
      resources={r'/*': {'origins': '*'}})
 variables = Variables()
 app.wsgi_app = middleware(app.wsgi_app, variables.middleware_token)
@@ -57,9 +57,7 @@ def get_location(location_id):
         'user_id': request.args.get('user_id'),
     })
 
-    response = json.jsonify(result.to_dict())
-    response.headers.add('Access-Control-Allow-Origin', 'https://help-us-app.com/')
-    return response
+    return json.jsonify(result.to_dict())
 
 
 @app.route('/location', methods=['GET'])
