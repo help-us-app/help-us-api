@@ -57,7 +57,9 @@ def get_location(location_id):
         'user_id': request.args.get('user_id'),
     })
 
-    return json.jsonify(result.to_dict())
+    response = json.jsonify(result.to_dict())
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/location', methods=['GET'])
