@@ -12,7 +12,7 @@ class middleware:
         res = Response(u'Authorization failed', mimetype='text/plain', status=401)
 
         if key is None:
-            return self.app(environ, start_response)
+            return res(environ, start_response)
         else:
             key = key.split(' ')[1]
             if key == self.key:
