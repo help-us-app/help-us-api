@@ -50,7 +50,7 @@ def get_authorization_url():
     return redirect(result)
 
 
-@app.route('/location/<location_id>', methods=['GET', 'OPTIONS'])
+@app.route('/location/<location_id>', methods=['GET'])
 def get_location(location_id):
     result = location_controller.get_location_information({
         'location_id': location_id,
