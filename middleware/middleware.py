@@ -10,8 +10,7 @@ class middleware:
         request = Request(environ)
         key = request.headers.get('Authorization')
         res = Response(u'Authorization failed', mimetype='text/plain', status=401)
-
-        if request.method == 'OPTIONS':
+        if request.method == 'OPTIONS' or request.path == '/oauth/url':
             return self.app(environ, start_response)
         if key is None:
             return res(environ, start_response)
