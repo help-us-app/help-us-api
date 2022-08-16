@@ -14,7 +14,7 @@ class middleware:
             return self.app(environ, start_response)
         if request.path == '/oauth/url' or request.path == '/oauth':
             return self.app(environ, start_response)
-        if request.path == 'payment/webhook':
+        if request.path == '/payment/webhook':
             return self.app(environ, start_response)
         if key is None:
             return res(environ, start_response)
