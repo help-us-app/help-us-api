@@ -14,6 +14,8 @@ class Scraper:
             return self.scrape_amazon()
         elif self.cart_type == self.constants.ebay_cart_url:
             return self.scrape_ebay()
+        elif self.cart_type == self.constants.target_cart_url:
+            return self.scrape_target()
         return None
 
     def scrape_amazon(self):
