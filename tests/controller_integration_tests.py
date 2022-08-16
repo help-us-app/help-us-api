@@ -88,11 +88,16 @@ class MyTestCase(unittest.TestCase):
         # result = scraper.scrape_amazon()
         # self.assertTrue(result is not None)
         # file.close()
-        file = open('ebay_cart.html', 'r')
-        scraper = Scraper(file.read(), self.constants.ebay_cart_url)
-        result = scraper.scrape_ebay()
-        self.assertTrue(result is not None)
+        # file = open('ebay_cart.html', 'r')
+        # scraper = Scraper(file.read(), self.constants.ebay_cart_url)
+        # result = scraper.scrape_ebay()
+        # self.assertTrue(result is not None)
+        # file.close()
+        file = open('target_cart.html', 'r')
+        scraper = Scraper(file.read(), self.constants.target_cart_url)
+        result = scraper.scrape_target()
         file.close()
+        self.assertTrue(result is not None)
 
 
 if __name__ == '__main__':

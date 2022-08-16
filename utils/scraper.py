@@ -39,10 +39,35 @@ class Scraper:
 
             items.append({
                 'title': item_link[0].text.strip(),
-                'price': item.find('div', class_='item-price').text.strip(),
+                'price': item.find('div', class_='item-price').text.strip().replace('US', ''),
                 'productImage': item.find('div', class_='image-display').find('img').attrs['src'],
                 'productLink': item_link[0].attrs['href'],
                 'quantity': quantity[0].findNext('option', attrs={'selected': ''}).attrs['value'],
             })
+        return items
+
+    def scrape_target(self):
+        scraped_items = self.soup.find_all('div', attrs={'data-test': 'cartItem'})
+        items = []
+
+        for item in scraped_items:
+            quantity = "1"
+            url = item.find_all('a', attrs={'data-test': 'cartItem-title-url'})
+            image = item.find_all('picture', attrs={'data-test': 'cartItem-image'})
+            price = item.find_all('p', attrs={'data-test': 'cartItem-price'})[0].text.strip().replace('$', '')
+            unit_price = item.find_all('p', attrs={'data-test': 'cartItem-unitPrice'})
+            if len(unit_price) > 0:
+                unit_price = unit_price[0].text.strip().replace('each ', '').replace('$', '')
+                quantity = f"{int(float(price) / float(unit_price))}"
+                price = f"${unit_price}"
+
+            items.append({
+                'title': item.find('div', attrs={'data-test': 'cartItem-title'}).text.strip(),
+                'quantity': quantity,
+                'productImage': image[0].find('source').attrs['srcset'],
+                'productLink': url[0].attrs['href'],
+                'price': price,
+            })
             print(items[-1])
+
         return items

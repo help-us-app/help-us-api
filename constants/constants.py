@@ -15,4 +15,5 @@ class Constants:
         self.version = 'v2/'
         self.amazon_cart_url = 'https://www.amazon.com/gp/cart/view.html?ref_=nav_cart'
         self.ebay_cart_url = 'https://cart.payments.ebay.com/'
+        self.target_cart_url = 'https://www.target.com/cart'
 
