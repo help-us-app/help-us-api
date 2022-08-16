@@ -8,6 +8,7 @@ from controller.square_payment_controller import SquarePaymentController
 from models.responses.checkout_response import CheckoutResponse
 from models.responses.location_response import LocationResponse
 from services.square_services import SquareService
+from utils.scraper import Scraper
 
 
 class MyTestCase(unittest.TestCase):
@@ -15,6 +16,9 @@ class MyTestCase(unittest.TestCase):
     auth_controller = SquareAuthController(square_service)
     location_controller = SquareLocationController(square_service)
     payment_controller = SquarePaymentController(square_service)
+    file = open('amazon_cart.html', 'r')
+    scraper = Scraper(file.read(), 'amazon')
+    file.close()
     user_id = '27b47c9a-dfaf-4a60-b2de-ef6744ff27d0'
     location_id = 'LV7C5754RDGTN'
     payment_link_id = None
@@ -78,6 +82,10 @@ class MyTestCase(unittest.TestCase):
             'id': payment_link_id,
         })
         self.assertTrue(result)
+
+    def test_scrape(self):
+        result = self.scraper.scrape_amazon()
+        self.assertTrue(result is not None)
 
 
 if __name__ == '__main__':

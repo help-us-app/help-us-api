@@ -124,5 +124,21 @@ def payment_webhook():
     return '', http.HTTPStatus.NO_CONTENT
 
 
+@app.route('/scrape', methods=['POST'])
+def scrape():
+    request_json = request.get_json()
+    url = request_json.get('url')
+    cart_type = 'amazon'
+    body = request_json.get('body')
+
+    if cart_type == 'amazon':
+        from utils.scraper import Scraper
+        scraper = Scraper(body, cart_type)
+        return json.jsonify({
+            'result': scraper.scrape_body()
+        })
+    return json.jsonify({})
+
+
 if __name__ == "__main__":
     app.run(port=8081, debug=True, threaded=True)
