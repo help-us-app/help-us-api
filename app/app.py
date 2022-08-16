@@ -132,13 +132,8 @@ def scrape():
     url = request_json.get('url')
     body = request_json.get('body')
     scraper = Scraper(body, url)
-    result = scraper.scrape_body()
-    if result is None:
-        status = 400
-    if len(result) == 0:
-        status = 204
     return json.jsonify({
-        'result': result
+        'result': scraper.scrape_body()
     }), status
 
 
