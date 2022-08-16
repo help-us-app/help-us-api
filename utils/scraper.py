@@ -1,13 +1,16 @@
 from bs4 import BeautifulSoup
 
+from constants.constants import Constants
+
 
 class Scraper:
-    def __init__(self, body, cart_type):
-        self.cart_type = cart_type
+    def __init__(self, body, url):
+        self.cart_type = url
+        self.constants = Constants()
         self.soup = BeautifulSoup(body, 'html.parser')
 
     def scrape_body(self):
-        if self.cart_type == 'amazon':
+        if self.cart_type == self.constants.amazon_cart_url:
             return self.scrape_amazon()
         return None
 

@@ -3,6 +3,7 @@ import requests
 from flask import Flask, request, json
 from werkzeug.utils import redirect
 from flask_cors import CORS
+from utils.scraper import Scraper
 
 from constants.variables import Variables
 from controller.square_auth_controller import SquareAuthController
@@ -128,16 +129,11 @@ def payment_webhook():
 def scrape():
     request_json = request.get_json()
     url = request_json.get('url')
-    cart_type = 'amazon'
     body = request_json.get('body')
-
-    if cart_type == 'amazon':
-        from utils.scraper import Scraper
-        scraper = Scraper(body, cart_type)
-        return json.jsonify({
-            'result': scraper.scrape_body()
-        })
-    return json.jsonify({})
+    scraper = Scraper(body, url)
+    return json.jsonify({
+        'result': scraper.scrape_body()
+    })
 
 
 if __name__ == "__main__":

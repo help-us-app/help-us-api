@@ -13,3 +13,4 @@ class Constants:
         self.obtain_token_endpoint = 'oauth2/token'
         self.authorize_endpoint = 'oauth2/authorize'
         self.version = 'v2/'
+        self.amazon_cart_url = 'https://www.amazon.com/gp/cart/view.html?ref_=nav_cart'
