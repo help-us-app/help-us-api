@@ -2,6 +2,7 @@ import unittest
 
 import requests
 
+from constants.constants import Constants
 from controller.square_auth_controller import SquareAuthController
 from controller.square_location_controller import SquareLocationController
 from controller.square_payment_controller import SquarePaymentController
@@ -16,11 +17,9 @@ class MyTestCase(unittest.TestCase):
     auth_controller = SquareAuthController(square_service)
     location_controller = SquareLocationController(square_service)
     payment_controller = SquarePaymentController(square_service)
-    file = open('amazon_cart.html', 'r')
-    scraper = Scraper(file.read(), 'amazon')
-    file.close()
     user_id = '27b47c9a-dfaf-4a60-b2de-ef6744ff27d0'
     location_id = 'LV7C5754RDGTN'
+    constants = Constants()
     payment_link_id = None
 
     def test_list_locations(self):
@@ -84,8 +83,16 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(result)
 
     def test_scrape(self):
-        result = self.scraper.scrape_amazon()
+        # file = open('amazon_cart.html', 'r')
+        # scraper = Scraper(file.read(), self.constants.amazon_cart_url)
+        # result = scraper.scrape_amazon()
+        # self.assertTrue(result is not None)
+        # file.close()
+        file = open('ebay_cart.html', 'r')
+        scraper = Scraper(file.read(), self.constants.ebay_cart_url)
+        result = scraper.scrape_ebay()
         self.assertTrue(result is not None)
+        file.close()
 
 
 if __name__ == '__main__':
