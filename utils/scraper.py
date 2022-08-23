@@ -19,8 +19,10 @@ class Scraper:
         return None
 
     def scrape_amazon(self):
-        scraped_items = self.soup.find_all('div',
-                                           class_='a-row sc-list-item sc-list-item-border sc-java-remote-feature')
+        form = self.soup.find('form', attrs={'id': 'activeCartViewForm'})
+
+        scraped_items = form.find_all('div', class_='sc-list-item')
+
         items = []
         for item in scraped_items:
             items.append({
